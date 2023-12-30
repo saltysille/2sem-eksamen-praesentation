@@ -1,0 +1,215 @@
+---
+import "/src/css/general.css";
+import Mainlayout from "../layouts/Mainlayout.astro";
+
+const data = await fetch(
+  "https://uiovvvgmjftrkbiogyqx.supabase.co/rest/v1/products?order=brand_front.asc",
+  {
+    method: "GET",
+    headers: {
+      apikey:
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpb3Z2dmdtamZ0cmtiaW9neXF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDExMTU1MzUsImV4cCI6MjAxNjY5MTUzNX0.K1gnnZYV5aWSc4jzhiX1H2-WIcr2JXnmrj1BylbJRf0",
+    },
+  }
+).then((res) => res.json());
+---
+
+<Mainlayout title="SHOP">
+  <div class="filter">
+    <a class="filterbutton active" data-filter="all">All</a>
+    <span class="separator">|</span>
+    <a class="filterbutton active" data-filter="top">Top</a>
+    <span class="separator">|</span>
+    <a class="filterbutton" data-filter="bottom">Bottom</a>
+    <span class="separator">|</span>
+    <a class="filterbutton" data-filter="accessories">Accessories</a>
+  </div>
+
+  <section class="grid-container" id="articles-container">
+    {
+      data.map((item) => (
+        <article
+          class={`grid-item ${item.subsub_category}`}
+          data-category={item.subsub_category}
+        >
+          <a href={`/products/${item.slug}`}>
+            <img class="image" src={item.image} alt="Produktskud" />
+          </a>
+          <div class="item-info">
+            <a href={`/products/${item.slug}`}>
+              <h3 class="h3">{item.brand_front}</h3>
+            </a>
+            <h4 class="h4">{item.price} </h4>
+            {item.soldout_1 && (
+              <h4 class="soldout">
+                {item.soldout_1.toLowerCase() === "soldout"
+                  ? "Sold Out"
+                  : item.soldout_1}
+              </h4>
+            )}
+            {item.price && item.price.toLowerCase() !== "soldout" && (
+              <button type="button" name="btn">
+                <p>SHOP</p>
+              </button>
+            )}
+          </div>
+        </article>
+      ))
+    }
+  </section>
+</Mainlayout>
+
+<script>
+  const btns = document.querySelectorAll(".filterbutton");
+  btns.forEach((btn) => {
+    btn.addEventListener("click", () => filterBy(btn.dataset.filter));
+  });
+
+  function filterBy(cat) {
+    console.log(cat);
+    document.querySelectorAll("article.grid-item").forEach((art) => {
+      if (art.dataset.category === cat || cat === "all") {
+        //vises
+        art.classList.remove("hide");
+      } else {
+        //skjules
+        art.classList.add("hide");
+      }
+    });
+  }
+</script>
+
+<style>
+
+  /* knap */
+  button {
+    color: #ffffff;
+    background-color: var(--cta-text);
+    font-size: 16px;
+    border: none;
+    padding: 2px 50px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  .btn p {
+    font-family: var(--font-family-roman);
+  }
+  button:hover {
+    color: var(--cta-text);
+    background-color: transparent;
+    border: 1px solid #7a1c44;
+  }
+
+  /* id til javascript */
+  .hide {
+    display: none;
+  }
+
+  /* tekst - brand, pris  */
+  .item-info {
+    padding: 10px;
+    text-align: center;
+    padding-bottom: 30px;
+  }
+
+  .h4 {
+    font-family: var(--font-family-roman);
+    font-weight: 100 !important;
+  }
+
+  .h3 {
+    font-family: var(--font-family-roman);
+  }
+
+  /* filter mobil */
+  .filter {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-decoration: none;
+    overflow: hidden;
+    margin: 5px 0;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    padding-bottom: 100px;
+  }
+  .grid-item {
+    text-align: center;
+    padding: 10px;
+    background-color: var(--background-color);
+  }
+
+  .image {
+    width: 100%;
+        height: auto;
+      scale: 100%;}
+
+
+  /* filter active () - skal implementeres i koden hvis det er need to*/
+
+  .filterbutton:active {
+    color: var(--cta-text);
+  }
+
+  /* styling på soldout - den ligger med en <p> rundt om som er span stylet i koden ^ */
+
+  .soldout {
+    color: var(--cta-text);
+    font-family: var(--font-family-medium);
+  }
+  .filterbutton:hover {
+    cursor: pointer;
+  }
+
+  .filterbutton {
+    position: relative;
+    display: inline-block;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 13px;
+    overflow: hidden;
+letter-spacing: 1.5px;
+    padding: 10px;
+  }
+
+  @media screen and (min-width: 767px) {
+    .image {
+      height: 80%;
+      width: 80%;
+      object-fit: cover;
+    }
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      padding-bottom: 100px;
+      gap: 40px;
+      margin: 0 auto;
+      padding-left: 80px;
+      padding-right:80px;
+      padding-top:25px;
+    }
+    .filterbutton {
+      padding: 10px;
+      font-size: 15px;
+      transition: 0.2s;
+      margin: 5px 0;
+    }
+.item-info{
+margin-top: 20px;
+}
+.filterbutton{
+  letter-spacing: 1.5px;
+}
+
+
+
+  }
+</style>

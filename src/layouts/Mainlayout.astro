@@ -1,0 +1,31 @@
+---
+import "/src/css/general.css";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+const { title } = Astro.props;
+---
+
+
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="public/logo/firstclass-logo-svg/logo.svg"
+    />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <Nav />
+
+  <main>
+    <slot />
+  </main>
+
+  <Footer />
+
+
+</html>
+

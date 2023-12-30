@@ -1,0 +1,104 @@
+
+<div class="container">
+  <div class="pic_1">
+    <p><a href="/listeview">SHOP ACCESSORIES</a></p>
+  </div>
+  <div class="pic_2">
+    <p><a href="/listeview">SHOP CLOTHING</a></p>
+  </div>
+
+</div>
+
+
+<!-- Flex -->
+  <style>
+    .container {
+    display: grid;
+    grid-template-columns: 1fr; 
+    gap: 10px;
+    margin: 0 auto;
+    padding-top:20px;
+    max-width: 1400px;
+    padding:20px;
+}
+
+.pic_1, .pic_2 {
+  background-size: cover;
+  height: 550px;
+  
+}
+
+
+.pic_1 p,
+.pic_2 p {
+  position: relative;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: var(--secondary-color);
+  padding: 10px;
+  font-weight: 500;
+  font-size: 28px;
+  transition: color 0.3s ease;
+}
+
+.pic_1 p:hover a,
+.pic_2 p:hover a {
+  color: #7A1C44;
+  text-decoration: underline;
+}
+
+a {
+  color: #F0EFEC;
+  text-decoration: none;
+}
+
+.pic_1 {
+  background-image: url(/public/frontpage/pic3.webp);
+}
+
+.pic_2 {
+  background-image: url(/public/frontpage/pic2.webp);
+}
+.pic_1 {
+    order: 2;
+  }
+
+  .pic_2 {
+    order: 1;
+  }
+
+
+@media only screen and (min-width: 769px) {
+  .container {
+    grid-template-columns: 1.5fr 2fr;
+    gap: 80px;
+    max-width: 1200px;
+  }
+
+  .pic_1,
+  .pic_2 {
+    gap: 20px; 
+    width: 90%;
+    height: 800px;
+    margin-bottom: 30px;
+  }
+  .pic_1 {
+    order: 1;
+  }
+
+  .pic_2 {
+    order: 2;
+  }
+
+
+  .container {
+
+  gap: 20px;
+}
+
+}
+</style>
+
